@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Privacy Policy — {{ site_name }}{% endblock %}
+
+{% block content %}
+
+<section class="shop-banner" style="padding:80px 0;margin-top:72px;">
+    <div class="container">
+        <h1 class="fw-bold mb-2">Privacy Policy</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Privacy Policy</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <p class="text-muted">Last updated: {% now "F j, Y" %}</p>
+
+                <p>{{ site_name }} ("we", "us", "our") respects your privacy. This Privacy Policy explains how we
+                collect, use, and protect your personal information when you visit or make a purchase on our
+                website.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Information We Collect</h4>
+                <p>When you create an account, place an order, or contact us, we may collect your name, email
+                address, phone number, shipping address, and order details. We do not store your full payment
+                card details on our servers.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">How We Use Your Information</h4>
+                <ul>
+                    <li>To process and deliver your orders</li>
+                    <li>To send order confirmations and delivery updates</li>
+                    <li>To respond to your questions and support requests</li>
+                    <li>To improve our website and product offerings</li>
+                    <li>To send occasional promotional emails, only if you subscribed to our newsletter</li>
+                </ul>
+
+                <h4 class="fw-bold mt-5 mb-3">Sharing Your Information</h4>
+                <p>We do not sell or rent your personal information to third parties. We may share limited
+                information with trusted delivery partners and payment processors (such as bKash or Nagad)
+                solely to complete your order.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Cookies</h4>
+                <p>We use cookies to keep your shopping cart working and to remember your preferences, such as
+                dark mode. You can disable cookies in your browser, but some features of the site may not work
+                correctly.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Your Rights</h4>
+                <p>You may request to view, update, or delete your personal information at any time by
+                contacting us at <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Changes to This Policy</h4>
+                <p>We may update this Privacy Policy from time to time. Any changes will be posted on this
+                page with an updated revision date.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Contact Us</h4>
+                <p>If you have any questions about this Privacy Policy, please
+                <a href="{% url 'core:contact' %}">contact us</a>.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

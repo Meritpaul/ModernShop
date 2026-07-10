@@ -1,0 +1,6 @@
+Django>=5.0,<5.3
+django-jazzmin>=3.0
+Pillow>=10.0
+python-decouple>=3.8
+whitenoise>=6.7
+PyMySQL>=1.1

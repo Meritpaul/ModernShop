@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+{% block title %}Edit Profile — {{ site_name }}{% endblock %}
+{% block newsletter %}{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top:72px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="p-5 border rounded-4 shadow-sm">
+                    <h4 class="fw-bold mb-4">Edit Profile</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
+                            {% if field.help_text %}<div class="text-muted small mt-1">{{ field.help_text }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-dark px-5">Save Changes</button>
+                            <a href="{% url 'users:profile' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

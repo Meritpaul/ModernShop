@@ -1,0 +1,55 @@
+{% extends "base/base.html" %}
+{% block title %}Register — {{ site_name }}{% endblock %}
+{% block newsletter %}{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top:72px;min-height:70vh;display:flex;align-items:center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="p-5 border rounded-4 shadow-sm bg-white">
+                    <div class="text-center mb-4">
+                        <a href="{% url 'core:home' %}" class="text-dark text-decoration-none fs-3 fw-bold">{{ site_name }}</a>
+                        <h5 class="mt-3 fw-bold">Create Account</h5>
+                        <p class="text-muted small">Join thousands of happy shoppers</p>
+                    </div>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Username</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Email Address</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Password</label>
+                            <div class="password-wrapper">
+                                {{ form.password1 }}
+                                <span class="password-toggle" onclick="togglePassword(this)"><i class="bi bi-eye"></i></span>
+                            </div>
+                            {% if form.password1.errors %}<div class="text-danger small mt-1">{{ form.password1.errors }}</div>{% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">Confirm Password</label>
+                            <div class="password-wrapper">
+                                {{ form.password2 }}
+                                <span class="password-toggle" onclick="togglePassword(this)"><i class="bi bi-eye"></i></span>
+                            </div>
+                            {% if form.password2.errors %}<div class="text-danger small mt-1">{{ form.password2.errors }}</div>{% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 py-2 mb-3">Create Account</button>
+                    </form>
+                    <p class="text-center text-muted small mb-0">
+                        Already have an account?
+                        <a href="{% url 'users:login' %}" class="text-dark fw-medium">Sign In</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

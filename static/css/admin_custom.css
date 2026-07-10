@@ -1,0 +1,66 @@
+/* ModernShop Admin — custom polish on top of Jazzmin */
+:root { --ms-dark: #1a1a2e; }
+
+/* Brand */
+.brand-text { font-weight: 700 !important; letter-spacing: .5px; }
+
+/* Cards */
+.card { border-radius: 10px !important; box-shadow: 0 2px 12px rgba(0,0,0,.06) !important; }
+
+/* Tables */
+.table thead th {
+    font-size: .82rem; text-transform: uppercase; letter-spacing: .4px;
+    color: #6b7280; border-bottom: 2px solid #e5e7eb;
+}
+
+/* Login page */
+.login-page, .register-page {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+}
+.login-box .card, .register-box .card {
+    border-radius: 14px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25) !important;
+}
+
+/* Thumbnail in list views */
+.admin-thumb {
+    width: 48px; height: 48px; object-fit: cover;
+    border-radius: 8px; display: block;
+}
+
+/* Fix: product photo preview in the Product > Images inline was sitting
+   noticeably lower than the other fields in the same row. Root cause:
+   Django wraps the readonly preview image in a <p> with a default 16px
+   bottom margin, which (combined with default table vertical-align:middle)
+   pushes the image down relative to shorter sibling cells. */
+.field-preview p {
+    margin: 0 !important;
+}
+
+.inline-group table td,
+.inline-group table th {
+    vertical-align: top !important;
+    padding-top: 12px !important;
+}
+
+/* Status pills */
+.status-pill {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 12px; font-size: 11px; font-weight: 600; color: #fff;
+}
+
+/* Form controls */
+.form-control:focus, .form-select:focus {
+    border-color: var(--ms-dark) !important;
+    box-shadow: 0 0 0 .15rem rgba(26,26,46,.15) !important;
+}
+
+/* Top bar "View Website" button styling */
+.navbar-nav .nav-link[href="/"] { font-weight: 600; }
+
+/* Fix: navbar-dark sets white/translucent link text, but the top navbar's
+   actual background rendered white — making "View Website" and other
+   top-bar links invisible. Give it the matching dark background. */
+.navbar.navbar-dark {
+    background: #1a1a2e !important;
+}

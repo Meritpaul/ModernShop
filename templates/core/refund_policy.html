@@ -1,0 +1,62 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Refund & Return Policy — {{ site_name }}{% endblock %}
+
+{% block content %}
+
+<section class="shop-banner" style="padding:80px 0;margin-top:72px;">
+    <div class="container">
+        <h1 class="fw-bold mb-2">Refund &amp; Return Policy</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Refund &amp; Return Policy</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <p class="text-muted">Last updated: {% now "F j, Y" %}</p>
+
+                <p>Your satisfaction matters to us. If something isn't right with your order, here's how our
+                return and refund process works.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Return Window</h4>
+                <p>You may request a return or exchange within 7 days of receiving your order, as long as the
+                product is unused, in its original packaging, and with tags attached.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Non-Returnable Items</h4>
+                <ul>
+                    <li>Innerwear, cosmetics, and personal care items (for hygiene reasons)</li>
+                    <li>Items marked as "Final Sale" or "Non-Returnable" on the product page</li>
+                    <li>Products that have been used, washed, or damaged by the customer</li>
+                </ul>
+
+                <h4 class="fw-bold mt-5 mb-3">How to Request a Return</h4>
+                <p>Contact us at <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+                or call +880 1800-000000 with your order number and reason for return. Our team will guide you
+                through the pickup or drop-off process.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Refunds</h4>
+                <p>Once we receive and inspect the returned item, we will notify you of the approval status.
+                Approved refunds for bKash/Nagad payments are sent back to the same account within 3–5 working
+                days. For Cash on Delivery orders, refunds are made via bKash/Nagad or bank transfer.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Damaged or Wrong Item Received</h4>
+                <p>If you received a damaged, defective, or incorrect item, please contact us within 48 hours
+                of delivery with photos of the product. We will arrange a free replacement or full refund.</p>
+
+                <h4 class="fw-bold mt-5 mb-3">Contact Us</h4>
+                <p>For any return or refund questions, please <a href="{% url 'core:contact' %}">contact us</a>.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

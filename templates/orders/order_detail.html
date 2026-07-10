@@ -1,0 +1,103 @@
+{% extends "base/base.html" %}
+{% block title %}Order {{ order.order_number }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top:72px;">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+            <div>
+                <h2 class="fw-bold mb-1">Order Details</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'orders:history' %}">My Orders</a></li>
+                        <li class="breadcrumb-item active">{{ order.order_number }}</li>
+                    </ol>
+                </nav>
+            </div>
+            <span class="badge fs-6 rounded-pill
+                {% if order.status == 'delivered' %}bg-success
+                {% elif order.status == 'cancelled' %}bg-danger
+                {% elif order.status == 'shipped' %}bg-info
+                {% elif order.status == 'processing' %}bg-warning text-dark
+                {% elif order.status == 'confirmed' %}bg-primary
+                {% else %}bg-secondary{% endif %}">
+                {{ order.get_status_display }}
+            </span>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+
+                <!-- Items -->
+                <div class="p-4 border rounded-3 mb-4">
+                    <h5 class="fw-bold mb-4">Items</h5>
+                    {% for item in order.items.all %}
+                    <div class="d-flex align-items-center gap-3 py-3 {% if not forloop.last %}border-bottom{% endif %}">
+                        <div class="flex-grow-1">
+                            <p class="mb-0 fw-medium">{{ item.product_name }}</p>
+                            <small class="text-muted">৳{{ item.price }} × {{ item.quantity }}</small>
+                        </div>
+                        <span class="fw-bold">৳{{ item.subtotal }}</span>
+                        {% if item.product and item.product.is_active %}
+                        <a href="{% url 'products:detail' item.product.slug %}" class="btn btn-sm btn-outline-dark">View</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="pt-3 mt-2 border-top">
+                        {% if order.discount_amount %}
+                        <div class="d-flex justify-content-between text-success mb-1">
+                            <span>Discount</span><span>−৳{{ order.discount_amount }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total</span><span>৳{{ order.total|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="p-4 border rounded-3">
+                    <h5 class="fw-bold mb-3">Shipping Address</h5>
+                    <p class="mb-1"><strong>{{ order.full_name }}</strong></p>
+                    <p class="mb-1 text-muted">{{ order.address }}</p>
+                    <p class="mb-1 text-muted">{{ order.city }}{% if order.state %}, {{ order.state }}{% endif %} {% if order.zip_code %}{{ order.zip_code }}{% endif %}</p>
+                    <p class="mb-1 text-muted">{{ order.country }}</p>
+                    <p class="mb-0 text-muted"><i class="bi bi-telephone me-1"></i>{{ order.phone }}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="p-4 border rounded-3">
+                    <h5 class="fw-bold mb-4">Order Info</h5>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Order Number</small>
+                        <strong>{{ order.order_number }}</strong>
+                    </div>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Order Date</small>
+                        <strong>{{ order.created_at|date:"M d, Y — H:i" }}</strong>
+                    </div>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Payment Method</small>
+                        <strong>{{ order.get_payment_method_display }}</strong>
+                        {% if order.is_paid %}
+                        <span class="badge bg-success ms-1">Paid</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark ms-1">Pending</span>
+                        {% endif %}
+                    </div>
+                    {% if order.notes %}
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Notes</small>
+                        <span>{{ order.notes }}</span>
+                    </div>
+                    {% endif %}
+                    <a href="{% url 'orders:history' %}" class="btn btn-outline-dark w-100 mt-2">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

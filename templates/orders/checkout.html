@@ -1,0 +1,144 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Checkout — {{ site_name }}{% endblock %}
+{% block newsletter %}{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top:72px;">
+    <div class="container">
+        <div class="section-header mb-4">
+            <h2 class="fw-bold">Checkout</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'orders:cart' %}">Cart</a></li>
+                    <li class="breadcrumb-item active">Checkout</li>
+                </ol>
+            </nav>
+        </div>
+
+        <form method="post" id="checkoutSection">
+            {% csrf_token %}
+            <div class="row g-5">
+
+                <!-- Billing Form -->
+                <div class="col-lg-7" data-aos="fade-right">
+                    <div class="checkout-form-box">
+                        <h4 class="mb-4">Billing Details</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}<div class="text-danger small mt-1">{{ form.first_name.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                {{ form.email }}
+                                {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}<div class="text-danger small mt-1">{{ form.phone.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12 mb-4">
+                                <label class="form-label">Street Address <span class="text-danger">*</span></label>
+                                {{ form.address }}
+                                {% if form.address.errors %}<div class="text-danger small mt-1">{{ form.address.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label">City <span class="text-danger">*</span></label>
+                                {{ form.city }}
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label">State / Division</label>
+                                {{ form.state }}
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label">ZIP Code</label>
+                                {{ form.zip_code }}
+                            </div>
+                            <div class="col-12 mb-4">
+                                <label class="form-label">Country <span class="text-danger">*</span></label>
+                                {{ form.country }}
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label class="form-label">Order Notes <span class="text-muted">(optional)</span></label>
+                                {{ form.notes }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-form-box mt-4">
+                        <h4 class="mb-4">Payment Method</h4>
+                        <div class="payment-methods">
+                            {% for choice in form.payment_method %}
+                            <div class="form-check mb-3 p-3 border rounded-3 {% if forloop.first %}border-dark{% endif %}">
+                                {{ choice.tag }}
+                                <label class="form-check-label ms-2" for="{{ choice.id_for_label }}">
+                                    {% if choice.data.value == 'cod' %}<i class="bi bi-cash-coin me-2 text-success"></i>Cash On Delivery
+                                    {% elif choice.data.value == 'card' %}<i class="bi bi-credit-card me-2 text-primary"></i>Credit / Debit Card
+                                    {% elif choice.data.value == 'bkash' %}<i class="bi bi-phone me-2 text-danger"></i>bKash
+                                    {% elif choice.data.value == 'nagad' %}<i class="bi bi-phone me-2 text-warning"></i>Nagad
+                                    {% else %}{{ choice.choice_label }}{% endif %}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-5" data-aos="fade-left">
+                    <div class="order-summary-box sticky-top" style="top:90px;">
+                        <h4 class="mb-4">Your Order</h4>
+                        {% for item in items %}
+                        <div class="summary-item">
+                            <span class="d-flex align-items-center gap-2">
+                                {% if item.product.main_image %}
+                                <img src="{{ item.product.main_image.image.url }}" style="width:45px;height:45px;border-radius:8px;object-fit:cover;" alt="{{ item.product.name }}">
+                                {% endif %}
+                                {{ item.product.name }} × {{ item.quantity }}
+                            </span>
+                            <span>৳{{ item.subtotal }}</span>
+                        </div>
+                        {% endfor %}
+                        <div class="summary-divider"></div>
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span>৳{{ cart.total }}</span>
+                        </div>
+                        {% if discount %}
+                        <div class="summary-item text-success">
+                            <span>Discount ({{ coupon.discount_percent }}%)</span>
+                            <span>−৳{{ discount|floatformat:2 }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="summary-item">
+                            <span>Shipping</span>
+                            <span class="text-success fw-medium">Free</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item summary-total">
+                            <span>Total</span>
+                            <span>৳{{ grand_total|floatformat:2 }}</span>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 py-3 mt-3 fw-bold">
+                            <i class="bi bi-lock me-2"></i>Place Order
+                        </button>
+                        <a href="{% url 'orders:cart' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Cart
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
