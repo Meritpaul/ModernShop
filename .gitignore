@@ -18,3 +18,4 @@ Thumbs.db
 dist/
 build/
 README.md
+.env.example
